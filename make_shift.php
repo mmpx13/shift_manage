@@ -23,7 +23,7 @@
     <body>
         <?php
 
-    require_once('../function/0211function.php');
+    require_once('../function/0212function.php');
     print'<form method="get" action='.$_SERVER['PHP_SELF'].'>';
     make7Years();
     print'年';
@@ -89,7 +89,7 @@
                 array_push($week, date('w', mktime(0, 0, 0, $month, $monthDays[$i], $year)));
     
             }
-        } else if (date('m') == 2 && date('Y') /4 == 0) {//うるう年(年数÷４のあまりが０の時)
+        } else if (date('m') == 2 && date('Y') %4 == 0) {//うるう年(年数÷４のあまりが０の時)
             for ($i = 0; $i < count($monthDays) - 2; $i++) {
                 print '<td class=day-' . ($i + 21) . '>' . $monthDays[$i] . '</td>';
                 array_push($week, date('w', mktime(0, 0, 0, $month, $monthDays[$i], $year)));
