@@ -23,7 +23,7 @@
     <body>
         <?php
 
-    require_once('../function/0212function.php');
+    require_once('function.php');
     print'<form method="get" action='.$_SERVER['PHP_SELF'].'>';
     make7Years();
     print'年';
@@ -35,7 +35,7 @@
 
 
 
-
+    print '<form method="post" action=hyouji_check.php>';
     if(empty($_GET['year']) && empty($_GET['month'])){
         $year=date('Y');
         $month=date('m');
@@ -78,30 +78,32 @@
         print '(' . $year . '年　' . $month . '月21日～';
         print $nextMonthYear . '年　' . $nextMonth . '月20日)';
     
-        for($n=0;$n<20;$n++){//$weekに今月１日から２０日までの曜日を入れる
+        for($n=0;$n<20;$n++){//$weekに今月１日から２０日までの曜日を入れる(委員会日程決定するための曜日を数えるために必要)
         array_push($week,date('w', mktime(0, 0, 0, $month, $n, $year)));
         }
+        
+
 //-------------------------日数を決定。同時に曜日を計算し、$week配列に入れる--------------------------------------------------
         print '<br><tr><td width=50px>日付</td>';
-        if (date('m') == 4 || date('m') == 6 || date('m') == 9 || date('m') == 11) {//４、６、９、１１月
+        if (date('m') == 4 || date('m') == 6 || date('m') == 9 || date('m') == 11) {
             for ($i = 0; $i < count($monthDays) - 1; $i++) {
                 print '<td class=day-' . ($i + 21) . '>' . $monthDays[$i] . '</td>';
                 array_push($week, date('w', mktime(0, 0, 0, $month, $monthDays[$i], $year)));
     
             }
-        } else if (date('m') == 2 && date('Y') %4 == 0) {//うるう年(年数÷４のあまりが０の時)
+        } else if (date('m') == 2 && date('Y') % 4 == 0) {
             for ($i = 0; $i < count($monthDays) - 2; $i++) {
                 print '<td class=day-' . ($i + 21) . '>' . $monthDays[$i] . '</td>';
                 array_push($week, date('w', mktime(0, 0, 0, $month, $monthDays[$i], $year)));
     
             }
-        } else if (date('m') == 2) {//うるう年以外の２月
+        } else if (date('m') == 2) {
             for ($i = 0; $i < count($monthDays) - 3; $i++) {
                 print '<td class=day-' . ($i + 21) . '>' . $monthDays[$i] . '</td>';
                 array_push($week, date('w', mktime(0, 0, 0, $month, $monthDays[$i], $year)));
     
             }
-        } else {//１、３、５、７、８、１０、１２月
+        } else {
             for ($i = 0; $i < count($monthDays); $i++) {
                 print '<td class=day-' . ($i + 21) . '>' . $monthDays[$i] . '</td>';
                 array_push($week, date('w', mktime(0, 0, 0, $month, $monthDays[$i], $year)));
@@ -126,7 +128,7 @@
             if($week[$o]==1){
                 $i9++;
                 if($i9== 4){
-                    array_push($iinkaiDay,'看Q');
+                    array_push($iinkaiDay,'看&nbsp;Q<br>取&nbsp;O<br>り&nbsp;L<br>向&nbsp;向<br>上&nbsp;上<br>');
                 }else{
                 array_push($iinkaiDay,'');
             }
@@ -134,9 +136,9 @@
             }else if($week[$o]==6){
                 $i4++;
                 if($i4== 4 && ($month==5||$month==8||$month==11||$month==2)){
-                    array_push($iinkaiDay,'離設対策');
+                    array_push($iinkaiDay,'離<br>設<br>対<br>策');
             }else if($i4== 4 && ($month==4||$month==7||$month==10||$month==1)){
-                    array_push($iinkaiDay,'防犯対策');
+                    array_push($iinkaiDay,'防<br>犯<br>対<br>策');
             }else{
                 array_push($iinkaiDay,'');
             }
@@ -144,9 +146,9 @@
             }else if($week[$o]==2){
                 $i7++;
                 if($i7==3 && ($month==5||$month==8||$month==11||$month==2)){
-                    array_push($iinkaiDay,'身特体養拘処束遇適・正医化療　連　携');
+                    array_push($iinkaiDay,'身特<br>体養<br>拘処<br>束遇<br>適・<br>正医<br>化療<br>　連<br>　携');
                 }else if($i7==3 && ($month==4||$month==6||$month==7||$month==9||$month==10||$month== 12||$month== 1||$month=3)){
-                    array_push($iinkaiDay,'特養処遇・医療連携');
+                    array_push($iinkaiDay,'特<br>養<br>処<br>遇<br>・<br>医<br>療<br>連<br>携');
                 }else{
                     array_push($iinkaiDay,'');
                 }
@@ -159,7 +161,7 @@
         if($week[$m]==1){//月曜日
             $i3++;
             if($i3==1){
-                array_push($iinkaiDay,'救命・防災');
+                array_push($iinkaiDay,'救<br>命<br>・<br>防<br>災');
             }else{
                 array_push($iinkaiDay,'');
             }
@@ -167,20 +169,20 @@
             $i1++;
             $i7++;
             if($i1== 1){//第1火曜日
-                array_push($iinkaiDay,'感染・褥瘡予防');
+                array_push($iinkaiDay,'感<br>染<br>・<br>褥<br>瘡<br>予<br>防');
             }else if($i1== 2){//第2火曜日
-                array_push($iinkaiDay,'腰痛予防');
+                array_push($iinkaiDay,'腰<br>痛<br>予<br>防<br>');
             }else if($i7== 3 && ($month==5||$month==8||$month==11||$month==2)){
-                array_push($iinkaiDay,'身特体養拘処束遇適・正医化療　連　携');
+                array_push($iinkaiDay,'身特<br>体養<br>拘処<br>束遇<br>適・<br>正医<br>化療<br>　連<br>　携');
             }else if($i7==3 && ($month==4||$month==6||$month==7||$month==9||$month==10||$month== 12||$month== 1||$month=3)){
-                array_push($iinkaiDay,'特養処遇・医療連携');
+                array_push($iinkaiDay,'特<br>養<br>処<br>遇<br>・<br>医<br>療<br>連<br>携');
             }else{
                 array_push($iinkaiDay,'');
             }
         }else if($week[$m]==4){//木曜日
             $i2++;
             if($i2== 1){
-                array_push($iinkaiDay,'現任教育');
+                array_push($iinkaiDay,'現<br>任<br>教<br>育<br>');
         }else{
             array_push($iinkaiDay,'');
         }
@@ -190,15 +192,25 @@
 
     }
 //-----------------$iinkaiDayの配列の20番目から使う----------------------------------
-                print '<tr><td style="width:50px; font-size:small;">委員会</td>';
+                print '<tr><td width=50px>委員会</td>';
                 for($p=20;$p<count($iinkaiDay);$p++){
-                print'<td class="iinkai"><input type="text"  style="width:25px; height:30px;" value="'.$iinkaiDay[$p].'"></td>';    
+                print'<td class="iinkai"><input type="text"  style="width:15px" value="'.$iinkaiDay[$p].'"></td>';
 }
     print'</tr>';
 
     mkTable();
     print '</table>';
-    print''
+
+    print'<input type="hidden" name="month" value="'.$month.'">';
+    print'<input type="hidden" name="year" value="'.$year.'">';
+    for($q=$n;$q<count($week);$q++){
+        print'<input type="hidden" name="week_data[]" value="'.$weekValue[$week[$q]].'">';
+    }
+    for($r=0;$r<count($iinkaiDay);$r++){
+        print'<input type="hidden" name="iinkai[]" value="'.$iinkaiDay[$r].'">';
+    }
+    print'<input type="submit" value="確認">';
+    print '</form>';
     ?>
     </body>
 
